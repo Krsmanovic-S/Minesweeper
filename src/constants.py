@@ -1,12 +1,15 @@
 import pygame
 pygame.init()
 
+# WINDOW SETTINGS
+HEIGHT = 1000
+WIDTH = 1000
+
 # COLORS
-BLACK = (45.9, 45.9, 45.9)
+BORDER = (45.9, 45.9, 45.9)
 GRAY = (72.5, 72.5, 72.5)
-OPENED = (25, 60, 60)
+OPENED = (65.5, 65.5, 65.5)
 RED = (255, 0, 0)
-GREEN = (0, 255, 0)
 
 # IMAGES
 ONE = pygame.image.load('images/one.png')
@@ -18,3 +21,4 @@ SIX = pygame.image.load('images/six.png')
 SEVEN = pygame.image.load('images/seven.png')
 EIGHT = pygame.image.load('images/eight.png')
 FLAG = pygame.image.load('images/flag.png')
+MINE = pygame.image.load('images/mine.png')

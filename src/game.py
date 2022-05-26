@@ -4,7 +4,7 @@ from board import *
 class Game:
     def __init__(self):
         # Window settings
-        self.window = pygame.display.set_mode((1000, 1000))
+        self.window = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption("Minesweeper")
 
         self.board = Board()
