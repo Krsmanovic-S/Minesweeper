@@ -16,11 +16,17 @@ class Game:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.KEYDOWN:
+                # Resetting the board when pressing 'r'.
+                if event.key == pygame.K_r:
+                    self.board.reset()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     if self.board.game_over:
-                        print('lol')
                         self.board.reset()
+                    elif self.board.first_move:
+                        self.board.play_first_move(self.mouse_pos)
+                        self.board.first_move = False
                     else:
                         self.board.open_cell(self.mouse_pos)
                 elif event.button == 3:
@@ -37,7 +43,6 @@ class Game:
         pygame.display.update()
 
     def run(self):
-        self.board.randomize_mines()
         while True:
             self.update_events()
             self.update()
