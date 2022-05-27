@@ -5,7 +5,6 @@ pygame.init()
 HEIGHT = 1000
 WIDTH = 1000
 
-# GRID SETTINGS
 CELL_SIZE = 100
 
 # COLORS
@@ -15,6 +14,7 @@ OPENED = (90.5, 90.5, 90.5)
 RED = (255, 0, 0)
 
 # IMAGES
+EMPTY = pygame.image.load('images/empty_tile.png')
 ONE = pygame.image.load('images/one.png')
 TWO = pygame.image.load('images/two.png')
 THREE = pygame.image.load('images/three.png')
@@ -28,6 +28,7 @@ MINE = pygame.image.load('images/mine.png')
 
 # DICTIONARY FOR DRAWING
 DRAWING = {
+    0: EMPTY,
     1: ONE,
     2: TWO,
     3: THREE,

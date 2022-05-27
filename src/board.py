@@ -33,10 +33,7 @@ class Board:
                     if self._field[i][j] == 10:
                         window.blit(FLAG, position)
                 else:
-                    if self._field[i][j] == 0:
-                        self.draw_rect(window, OPENED, BORDER, cell)
-                    else:
-                        window.blit(DRAWING[self._field[i][j]], position)
+                    window.blit(DRAWING[self._field[i][j]], position)
 
     def play_first_move(self, mouse):
         x, y = mouse[1] // 100, mouse[0] // 100
