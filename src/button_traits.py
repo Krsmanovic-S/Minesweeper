@@ -37,6 +37,7 @@ class Button(HasTraits):
             button.draw_button(window, mouse)
 
 
+# Main Menu Buttons
 class Play(Button):
     y = int(100)
 
@@ -75,3 +76,53 @@ class Exit(Play):
     @default('highlighted')
     def _default_highlighted(self):
         return HIGHLIGHTED_EXIT
+
+
+# Settings Menu Buttons
+class Grid(Button):
+    x = int(25)
+    y = int(75)
+
+    @default('image')
+    def _default_image(self):
+        return GRID_SETTINGS_BUTTON
+
+    @default('highlighted')
+    def _default_highlighted(self):
+        return HIGHLIGHTED_GRID_SETTINGS
+
+class Test2(Grid):
+    y = int(325)
+
+    @default('image')
+    def _default_image(self):
+        return TEST
+
+    @default('highlighted')
+    def _default_highlighted(self):
+        return TEST
+
+
+class Test1(Button):
+    x = int(425)
+    y = int(75)
+
+    @default('image')
+    def _default_image(self):
+        return TEST
+
+    @default('highlighted')
+    def _default_highlighted(self):
+        return TEST
+
+
+class Test3(Test1):
+    y = int(325)
+
+    @default('image')
+    def _default_image(self):
+        return TEST
+
+    @default('highlighted')
+    def _default_highlighted(self):
+        return TEST

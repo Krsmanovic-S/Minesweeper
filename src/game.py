@@ -1,18 +1,27 @@
 from board import *
-from button_traits import Play, Settings, Exit
+from button_traits import *
+from slider import *
 
 
 class Game:
     def __init__(self):
-        # Window settings
+        # Window Settings
         self.window = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_icon(WINDOW_ICON)
         pygame.display.set_caption("Minesweeper")
 
-        # Buttons
+        # Main Menu Buttons
         self.play_button = Play()
         self.settings_button = Settings()
         self.exit_button = Exit()
+
+        # Settings Menu Buttons
+        self._grid_settings = Grid()
+        self.test_1 = Test1()
+        self.test_2 = Test2()
+        self.test_3 = Test3()
+
+        self.slider = Slider((50, 165), 50, 35)
 
         self.board = Board()
         self.mouse_pos = (0, 0)
@@ -31,6 +40,8 @@ class Game:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         if self.play_button.is_mouse_over(self.mouse_pos):
+                            self.board.grid_size = self.slider.get_value()
+                            self.board.set_up_board()
                             self.run()
                         elif self.settings_button.is_mouse_over(self.mouse_pos):
                             self.settings_menu()
@@ -45,8 +56,9 @@ class Game:
             pygame.display.update()
 
     def settings_menu(self):
-        # Function that sets up the main menu and runs its game-loop.
+        # Function that sets up the settings menu and runs its game-loop.
         self.window.fill(GRAY)
+        pressed_on_slider = False
         while True:
             self.mouse_pos = pygame.mouse.get_pos()
 
@@ -54,9 +66,28 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        if self._grid_settings.is_mouse_over(self.mouse_pos):
+                            pressed_on_slider = True
+
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    if event.button == 1:
+                        pressed_on_slider = False
+
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.main_menu()
+
+            self._grid_settings.draw_button(self.window, self.mouse_pos)
+            self.test_1.draw_button(self.window, self.mouse_pos)
+            self.test_2.draw_button(self.window, self.mouse_pos)
+            self.test_3.draw_button(self.window, self.mouse_pos)
+
+            self.slider.draw_slider(self.window)
+
+            if pressed_on_slider:
+                self.slider.change_value(self.mouse_pos)
 
             pygame.display.update()
 
@@ -70,7 +101,6 @@ class Game:
                 if event.key == pygame.K_ESCAPE:
                     self.board.reset()
                     self.main_menu()
-            elif event.type == pygame.KEYDOWN:
                 # Resetting the board when pressing 'r'.
                 if event.key == pygame.K_r:
                     self.board.reset()
@@ -92,7 +122,7 @@ class Game:
     def update(self):
         self.mouse_pos = pygame.mouse.get_pos()
 
-        if self.board.opened_cells == 100:
+        if self.board.opened_cells == (self.board.grid_size * self.board.grid_size):
             self.board.game_over = True
 
     def render(self):

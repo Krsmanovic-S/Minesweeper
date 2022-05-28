@@ -7,6 +7,7 @@ WIDTH = 800
 WINDOW_ICON = pygame.image.load('images/icon.png')
 
 # COLORS
+BLACK = (0, 0, 0)
 BORDER = (45.9, 45.9, 45.9)
 GRAY = (72.5, 72.5, 72.5)
 RED = (255, 0, 0)
@@ -29,9 +30,13 @@ PLAY_BUTTON = pygame.image.load('images/buttons/play_button.png')
 SETTINGS_BUTTON = pygame.image.load('images/buttons/settings_button.png')
 EXIT_BUTTON = pygame.image.load('images/buttons/exit_button.png')
 
+GRID_SETTINGS_BUTTON = pygame.image.load('images/buttons/grid_settings.png')
+TEST = pygame.image.load('images/buttons/button_template.png')
+
 HIGHLIGHTED_PLAY = pygame.image.load('images/buttons/highlighted_play.png')
 HIGHLIGHTED_SETTINGS = pygame.image.load('images/buttons/highlighted_settings.png')
 HIGHLIGHTED_EXIT = pygame.image.load('images/buttons/highlighted_exit.png')
+HIGHLIGHTED_GRID_SETTINGS = pygame.image.load('images/buttons/highlighted_grid_settings.png')
 
 # DICTIONARY FOR DRAWING
 DRAWING = {
