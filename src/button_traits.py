@@ -16,28 +16,48 @@ class Button(HasTraits):
         return self.rect
 
     # Functions
-    def draw_button(self, window, mouse):
+    def draw_button(self, window: pygame.display, mouse: tuple):
         if self.rect.collidepoint(mouse[0] - 5, mouse[1] - 5):
             window.blit(self.highlighted, (self.rect.x, self.rect.y))
         else:
             window.blit(self.image, (self.rect.x, self.rect.y))
 
-    def is_mouse_over(self, mouse_pos):
+    def is_mouse_over(self, mouse_pos: tuple):
         if self.rect.collidepoint(mouse_pos):
             return True
         else:
             return False
 
-    def draw_changing_button(self, window, mouse, button, check: bool):
-        # This function is used for buttons which have multiple images
-        # representing them, here we can decide which one to show.
-        if not check:
-            self.draw_button(window, mouse)
-        else:
-            button.draw_button(window, mouse)
-
 
 # Main Menu Buttons
+class Git(Button):
+    x = int(25)
+    y = int(675)
+
+    @default('image')
+    def _default_image(self):
+        return GIT_ICON
+
+    @default('highlighted')
+    def _default_highlighted(self):
+        return HIGHLIGHTED_GIT
+
+class LinkedIn(Git):
+    x = int(675)
+
+    @default('x')
+    def _default_x(self):
+        return WIDTH // 2 - 200
+
+    @default('image')
+    def _default_image(self):
+        return LINKEDIN_ICON
+
+    @default('highlighted')
+    def _default_highlighted(self):
+        return HIGHLIGHTED_LINKEDIN
+
+
 class Play(Button):
     y = int(100)
 
@@ -89,7 +109,7 @@ class Grid(Button):
 
     @default('highlighted')
     def _default_highlighted(self):
-        return HIGHLIGHTED_GRID_SETTINGS
+        return GRID_SETTINGS_BUTTON
 
 class Test2(Grid):
     y = int(325)
@@ -103,20 +123,20 @@ class Test2(Grid):
         return TEST
 
 
-class Test1(Button):
+class MineCount(Button):
     x = int(425)
     y = int(75)
 
     @default('image')
     def _default_image(self):
-        return TEST
+        return MINE_COUNT_BUTTON
 
     @default('highlighted')
     def _default_highlighted(self):
-        return TEST
+        return MINE_COUNT_BUTTON
 
 
-class Test3(Test1):
+class Test3(MineCount):
     y = int(325)
 
     @default('image')
