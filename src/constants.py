@@ -4,6 +4,7 @@ pygame.init()
 # WINDOW SETTINGS
 HEIGHT = 1000
 WIDTH = 1000
+WINDOW_ICON = pygame.image.load('images/icon.png')
 
 CELL_SIZE = 100
 
@@ -25,6 +26,9 @@ SEVEN = pygame.image.load('images/seven.png')
 EIGHT = pygame.image.load('images/eight.png')
 FLAG = pygame.image.load('images/flag.png')
 MINE = pygame.image.load('images/mine.png')
+
+# BUTTONS
+TEST = pygame.image.load('images/buttons/button_template.png')
 
 # DICTIONARY FOR DRAWING
 DRAWING = {
