@@ -32,22 +32,46 @@ class Button(HasTraits):
         # This function is used for buttons which have multiple images
         # representing them, here we can decide which one to show.
         if not check:
-            self.draw(window, mouse)
+            self.draw_button(window, mouse)
         else:
-            button.draw(window, mouse)
+            button.draw_button(window, mouse)
+
 
 class Play(Button):
-    y = int(175)
+    y = int(100)
 
     @default('x')
     def _default_x(self):
         return WIDTH // 2 - 200
 
+    @default('image')
+    def _default_image(self):
+        return PLAY_BUTTON
+
     @default('highlighted')
     def _default_highlighted(self):
-        return TEST
+        return HIGHLIGHTED_PLAY
+
+
+class Settings(Play):
+    y = int(380)
 
     @default('image')
     def _default_image(self):
-        return TEST
+        return SETTINGS_BUTTON
 
+    @default('highlighted')
+    def _default_highlighted(self):
+        return HIGHLIGHTED_SETTINGS
+
+
+class Exit(Play):
+    y = int(580)
+
+    @default('image')
+    def _default_image(self):
+        return EXIT_BUTTON
+
+    @default('highlighted')
+    def _default_highlighted(self):
+        return HIGHLIGHTED_EXIT

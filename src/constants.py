@@ -2,16 +2,13 @@ import pygame
 pygame.init()
 
 # WINDOW SETTINGS
-HEIGHT = 1000
-WIDTH = 1000
+HEIGHT = 800
+WIDTH = 800
 WINDOW_ICON = pygame.image.load('images/icon.png')
-
-CELL_SIZE = 100
 
 # COLORS
 BORDER = (45.9, 45.9, 45.9)
 GRAY = (72.5, 72.5, 72.5)
-OPENED = (90.5, 90.5, 90.5)
 RED = (255, 0, 0)
 
 # IMAGES
@@ -28,7 +25,13 @@ FLAG = pygame.image.load('images/flag.png')
 MINE = pygame.image.load('images/mine.png')
 
 # BUTTONS
-TEST = pygame.image.load('images/buttons/button_template.png')
+PLAY_BUTTON = pygame.image.load('images/buttons/play_button.png')
+SETTINGS_BUTTON = pygame.image.load('images/buttons/settings_button.png')
+EXIT_BUTTON = pygame.image.load('images/buttons/exit_button.png')
+
+HIGHLIGHTED_PLAY = pygame.image.load('images/buttons/highlighted_play.png')
+HIGHLIGHTED_SETTINGS = pygame.image.load('images/buttons/highlighted_settings.png')
+HIGHLIGHTED_EXIT = pygame.image.load('images/buttons/highlighted_exit.png')
 
 # DICTIONARY FOR DRAWING
 DRAWING = {
