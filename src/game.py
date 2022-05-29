@@ -1,5 +1,6 @@
-from board import *
-from button_traits import *
+from board import Board
+from constants import *
+from button_traits import Play, Settings, Exit, MineCount, Grid, LinkedIn, Git, Test2, Test3
 from slider import Slider
 import webbrowser
 
@@ -35,7 +36,7 @@ class Game:
         self.mouse_pos = (0, 0)
 
     # Menu Functions
-    def main_menu(self):
+    def _main_menu(self):
         # Function that sets up the main menu and runs its game-loop.
         self.window.blit(BG, (0, 0))
 
@@ -52,10 +53,10 @@ class Game:
                             self.board.mine_count = self._mine_count_slider.get_value()
                             self.board.grid_size = self._grid_size_slider.get_value()
                             self.board.reset()
-                            self.run()
+                            self._run()
                         # Transition into the options menu.
                         elif self.settings_button.is_mouse_over(self.mouse_pos):
-                            self.settings_menu()
+                            self._settings_menu()
                         elif self.exit_button.is_mouse_over(self.mouse_pos):
                             pygame.quit()
                             quit()
@@ -75,7 +76,7 @@ class Game:
 
             pygame.display.update()
 
-    def settings_menu(self):
+    def _settings_menu(self):
         # Function that sets up the settings menu and runs its game-loop.
         self.window.blit(BG, (0, 0))
 
@@ -109,7 +110,7 @@ class Game:
                 elif event.type == pygame.KEYDOWN:
                     # Transition back to main menu by pressing escape.
                     if event.key == pygame.K_ESCAPE:
-                        self.main_menu()
+                        self._main_menu()
 
             self._grid_settings.draw_button(self.window, self.mouse_pos)
             self._mine_count.draw_button(self.window, self.mouse_pos)
@@ -129,7 +130,7 @@ class Game:
             pygame.display.update()
 
     # Game Functions
-    def update_events(self):
+    def _update_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -137,7 +138,7 @@ class Game:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.board.reset()
-                    self.main_menu()
+                    self._main_menu()
                 # Resetting the board when pressing 'r'.
                 if event.key == pygame.K_r:
                     self.board.reset()
@@ -156,18 +157,18 @@ class Game:
                     # Right mouse button places a flag.
                     self.board.place_flag(self.mouse_pos)
 
-    def update(self):
+    def _update(self):
         self.mouse_pos = pygame.mouse.get_pos()
 
         if self.board.opened_cells == (self.board.grid_size * self.board.grid_size):
             self.board.game_over = True
 
-    def render(self):
+    def _render(self):
         self.board.draw_grid(self.window)
         pygame.display.update()
 
-    def run(self):
+    def _run(self):
         while True:
-            self.update_events()
-            self.update()
-            self.render()
+            self._update_events()
+            self._update()
+            self._render()

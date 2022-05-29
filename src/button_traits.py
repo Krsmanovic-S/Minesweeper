@@ -42,6 +42,7 @@ class Git(Button):
     def _default_highlighted(self):
         return HIGHLIGHTED_GIT
 
+
 class LinkedIn(Git):
     x = int(675)
 
@@ -110,6 +111,7 @@ class Grid(Button):
     @default('highlighted')
     def _default_highlighted(self):
         return GRID_SETTINGS_BUTTON
+
 
 class Test2(Grid):
     y = int(325)
