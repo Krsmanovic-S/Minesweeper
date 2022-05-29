@@ -12,7 +12,6 @@ LINKEDIN_URL = 'https://www.linkedin.com/in/stefan-krsmanovic-7698a4235/'
 # COLORS
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-BORDER = (45.9, 45.9, 45.9)
 GRAY = (72.5, 72.5, 72.5)
 RED = (255, 0, 0)
 
@@ -37,6 +36,8 @@ SEVEN = pygame.image.load('images/seven.png')
 EIGHT = pygame.image.load('images/eight.png')
 FLAG = pygame.image.load('images/flag.png')
 MINE = pygame.image.load('images/mine.png')
+CLOSED = pygame.image.load('images/closed_tile.png')
+HIGHLIGHTED_CLOSED = pygame.image.load('images/highlighted_closed.png')
 
 # BUTTONS
 PLAY_BUTTON = pygame.image.load('images/buttons/play_button.png')
@@ -65,5 +66,7 @@ DRAWING = {
     7: SEVEN,
     8: EIGHT,
     9: MINE,
-    10: FLAG
+    10: FLAG,
+    11: CLOSED,
+    12: HIGHLIGHTED_CLOSED
 }

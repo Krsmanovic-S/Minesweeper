@@ -30,7 +30,7 @@ class Game:
         # Values in the constructor are (in this order):
         # position of the slider, maximum value, current filled up part.
         self._grid_size_slider = Slider((50, 165), 40, 75)
-        self._mine_count_slider = Slider((450, 165), 600, 150)
+        self._mine_count_slider = Slider((450, 165), 600, 75)
 
         self.board = Board()
         self.mouse_pos = (0, 0)
@@ -38,6 +38,7 @@ class Game:
     # Menu Functions
     def _main_menu(self):
         # Function that sets up the main menu and runs its game-loop.
+        self.window = pygame.display.set_mode((WIDTH, HEIGHT))
         self.window.blit(BG, (0, 0))
 
         while True:
@@ -50,11 +51,14 @@ class Game:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         if self.play_button.is_mouse_over(self.mouse_pos):
+                            self.window = pygame.display.set_mode((800, 900))
+
                             self.board.mine_count = self._mine_count_slider.get_value()
                             self.board.grid_size = self._grid_size_slider.get_value()
+
                             self.board.reset()
                             self._run()
-                        # Transition into the options menu.
+                        # Transition into the option's menu.
                         elif self.settings_button.is_mouse_over(self.mouse_pos):
                             self._settings_menu()
                         elif self.exit_button.is_mouse_over(self.mouse_pos):
@@ -143,7 +147,7 @@ class Game:
                 if event.key == pygame.K_r:
                     self.board.reset()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
+                if event.button == 1 and self.mouse_pos[1] > 100:
                     if self.board.game_over:
                         self.board.reset()
                     elif self.board.first_move:
@@ -153,7 +157,7 @@ class Game:
                         self.board.first_move = False
                     else:
                         self.board.open_cell(self.mouse_pos)
-                elif event.button == 3:
+                elif event.button == 3 and self.mouse_pos[1] > 100:
                     # Right mouse button places a flag.
                     self.board.place_flag(self.mouse_pos)
 
@@ -164,7 +168,7 @@ class Game:
             self.board.game_over = True
 
     def _render(self):
-        self.board.draw_grid(self.window)
+        self.board.draw_grid(self.window, self.mouse_pos)
         pygame.display.update()
 
     def _run(self):
