@@ -59,6 +59,22 @@ class LinkedIn(Git):
         return HIGHLIGHTED_LINKEDIN
 
 
+class Smiley(Button):
+    x = WIDTH // 2 - 40
+    y = 13
+
+    def update_smiley_picture(self, check: int):
+        if check == 0:
+            self.image = DEAD_SMILEY_BUTTON
+            self.highlighted = HIGHLIGHTED_DEAD_SMILEY
+        elif check == 1:
+            self.image = SMILEY_BUTTON
+            self.highlighted = HIGHLIGHTED_SMILEY
+        else:
+            self.image = WON_SMILEY_BUTTON
+            self.highlighted = HIGHLIGHTED_WON_SMILEY
+
+
 class Play(Button):
     y = int(100)
 

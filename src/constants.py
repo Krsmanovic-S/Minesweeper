@@ -54,6 +54,14 @@ HIGHLIGHTED_EXIT = pygame.image.load('images/buttons/highlighted_exit.png')
 HIGHLIGHTED_GRID_SETTINGS = pygame.image.load('images/buttons/highlighted_grid_settings.png')
 HIGHLIGHTED_MINE_COUNT = pygame.image.load('images/buttons/highlighted_mine_count.png')
 
+SMILEY_BUTTON = pygame.image.load('images/buttons/smiley_tile.png')
+WON_SMILEY_BUTTON = pygame.image.load('images/buttons/won_smiley_tile.png')
+DEAD_SMILEY_BUTTON = pygame.image.load('images/buttons/dead_smiley_tile.png')
+
+HIGHLIGHTED_SMILEY = pygame.image.load('images/buttons/highlighted_smiley.png')
+HIGHLIGHTED_WON_SMILEY = pygame.image.load('images/buttons/highlighted_won_smiley.png')
+HIGHLIGHTED_DEAD_SMILEY = pygame.image.load('images/buttons/highlighted_dead_smiley.png')
+
 # DICTIONARY FOR DRAWING
 DRAWING = {
     0: EMPTY,

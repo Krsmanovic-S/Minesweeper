@@ -1,6 +1,6 @@
 from board import Board
 from constants import *
-from button_traits import Play, Settings, Exit, MineCount, Grid, LinkedIn, Git, Test2, Test3
+from button_traits import Play, Settings, Exit, MineCount, Grid, LinkedIn, Git, Test2, Test3, Smiley
 from slider import Slider
 import webbrowser
 
@@ -23,6 +23,10 @@ class Game:
         self.test_2 = Test2()
         self.test_3 = Test3()
 
+        # Top-Bar Field GUI
+        self.smiley = Smiley()
+        self.game_state = 0
+
         # Git & LinkedIn
         self._git_button = Git()
         self._linkedin_button = LinkedIn()
@@ -30,7 +34,7 @@ class Game:
         # Values in the constructor are (in this order):
         # position of the slider, maximum value, current filled up part.
         self._grid_size_slider = Slider((50, 165), 40, 75)
-        self._mine_count_slider = Slider((450, 165), 600, 75)
+        self._mine_count_slider = Slider((450, 165), 500, 50)
 
         self.board = Board()
         self.mouse_pos = (0, 0)
@@ -147,16 +151,20 @@ class Game:
                 if event.key == pygame.K_r:
                     self.board.reset()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1 and self.mouse_pos[1] > 100:
-                    if self.board.game_over:
-                        self.board.reset()
-                    elif self.board.first_move:
-                        # First move can never be a mine, so we handle
-                        # that here, then move on normally.
-                        self.board.play_first_move(self.mouse_pos)
-                        self.board.first_move = False
-                    else:
-                        self.board.open_cell(self.mouse_pos)
+                if event.button == 1:
+                    if self.mouse_pos[1] < 100:
+                        if self.smiley.is_mouse_over(self.mouse_pos):
+                            self.board.reset()
+                    elif self.mouse_pos[1] > 100:
+                        if self.board.game_over:
+                            self.board.reset()
+                        elif self.board.first_move:
+                            # First move can never be a mine, so we handle
+                            # that here, then move on normally.
+                            self.board.play_first_move(self.mouse_pos)
+                            self.board.first_move = False
+                        else:
+                            self.board.open_cell(self.mouse_pos)
                 elif event.button == 3 and self.mouse_pos[1] > 100:
                     # Right mouse button places a flag.
                     self.board.place_flag(self.mouse_pos)
@@ -164,11 +172,22 @@ class Game:
     def _update(self):
         self.mouse_pos = pygame.mouse.get_pos()
 
-        if self.board.opened_cells == (self.board.grid_size * self.board.grid_size):
+        if not self.board.game_over:
+            self.game_state = 1
+
+        if self.board.opened_cells == self.board.grid_size ** 2:
             self.board.game_over = True
+            self.game_state = 2
+        elif self.board.game_over:
+            self.game_state = 0
+
+        # Update the smiley picture according to the game state.
+        self.smiley.update_smiley_picture(self.game_state)
 
     def _render(self):
         self.board.draw_grid(self.window, self.mouse_pos)
+        self.smiley.draw_button(self.window, self.mouse_pos)
+
         pygame.display.update()
 
     def _run(self):

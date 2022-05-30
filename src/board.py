@@ -103,6 +103,8 @@ class Board:
                 for j in range(y - 1, y + 2):
                     self._flood_fill(i, j)
 
+            print(self.opened_cells)
+
     def _flood_fill(self, x: int, y: int):
         # Algorithm that will open cells around the one
         # we clicked if that cell isn't a flag/mine/already explored.
@@ -123,7 +125,7 @@ class Board:
                 self._flood_fill(x, y - 1)
 
     def _randomize_mines(self, clicked_position: tuple):
-        for i in range(self.mine_count, -1, -1):
+        for i in range(self.mine_count, 0, -1):
             x = random.randint(0, self.grid_size - 1)
             y = random.randint(0, self.grid_size - 1)
             if self._field[x][y] == 9 or (x, y) == clicked_position:
