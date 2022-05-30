@@ -129,16 +129,16 @@ class Grid(Button):
         return GRID_SETTINGS_BUTTON
 
 
-class Test2(Grid):
+class QuestionTile(Grid):
     y = int(325)
 
-    @default('image')
-    def _default_image(self):
-        return TEST
-
-    @default('highlighted')
-    def _default_highlighted(self):
-        return TEST
+    def update_question_tile(self, check: bool):
+        if not check:
+            self.image = QUESTION_MARK_DISABLED
+            self.highlighted = HIGHLIGHTED_DISABLED_QUESTION
+        else:
+            self.image = QUESTION_MARK_ENABLED
+            self.highlighted = HIGHLIGHTED_ENABLED_QUESTION
 
 
 class MineCount(Button):

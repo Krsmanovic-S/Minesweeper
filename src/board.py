@@ -11,8 +11,10 @@ class Board:
         self._cell_size = None
         self._covered_cells = None
         self._field = None
+        self.amount_of_flags = None
 
         # Variables
+        self.question_mark_tile = False
         self.game_over = False
         self.first_move = True
         self.opened_cells = 0
@@ -31,7 +33,7 @@ class Board:
         window.fill(fill_color, rect.inflate(-border * 2, -border * 2))
 
     def draw_grid(self, window, mouse):
-        x, y = (mouse[1] - 100) // self._cell_size, mouse[0] // self._cell_size
+        mouse_x, mouse_y = (mouse[1] - 100) // self._cell_size, mouse[0] // self._cell_size
 
         top_label = pygame.Rect(0, 0, 800, 100)
         self._draw_rect(window, GRAY, WHITE, top_label, 5)
@@ -40,9 +42,10 @@ class Board:
             for j in range(self.grid_size):
                 position = (j * self._cell_size, i * self._cell_size + 100)
 
-                # Draw a gray cell if the tile isn't open.
+                # Draw a gray cell if the tile isn't open,
+                # DRAWING is defined in constants.py
                 if not self._covered_cells[i][j]:
-                    if j == y and i == x:
+                    if j == mouse_y and i == mouse_x:
                         window.blit(DRAWING[12], position)
                     else:
                         window.blit(DRAWING[11], position)
@@ -51,7 +54,12 @@ class Board:
                         window.blit(DRAWING[10], position)
                 # Otherwise, draw whatever that tile represents in the field.
                 else:
-                    window.blit(DRAWING[self._field[i][j]], position)
+                    if self._field[i][j] != 9:
+                        window.blit(DRAWING[self._field[i][j]], position)
+                    else:
+                        # 0 is an image of an empty tile, 9 is an image of a mine.
+                        window.blit(DRAWING[0], position)
+                        window.blit(DRAWING[9], position)
 
     def play_first_move(self, mouse: tuple):
         x, y = (mouse[1] - 100) // int(self._cell_size), mouse[0] // int(self._cell_size)
@@ -75,12 +83,15 @@ class Board:
 
         if not self._covered_cells[x][y]:
             if (x, y) not in self._flagged_positions:
-                self._flagged_positions[(x, y)] = self._field[x][y]
+                # Place flags only if we have them.
+                if self.amount_of_flags:
+                    self._flagged_positions[(x, y)] = self._field[x][y]
 
-                if self._field[x][y] == 9:
-                    self.opened_cells += 1
+                    if self._field[x][y] == 9:
+                        self.opened_cells += 1
 
-                self._field[x][y] = 10
+                    self._field[x][y] = 10
+                    self.amount_of_flags -= 1
             else:
                 self._field[x][y] = self._flagged_positions[(x, y)]
 
@@ -88,6 +99,7 @@ class Board:
                     self.opened_cells -= 1
 
                 del self._flagged_positions[(x, y)]
+                self.amount_of_flags += 1
 
     def open_cell(self, mouse: tuple):
         x, y = (mouse[1] - 100) // int(self._cell_size), mouse[0] // int(self._cell_size)
@@ -102,8 +114,6 @@ class Board:
             for i in range(x - 1, x + 2):
                 for j in range(y - 1, y + 2):
                     self._flood_fill(i, j)
-
-            print(self.opened_cells)
 
     def _flood_fill(self, x: int, y: int):
         # Algorithm that will open cells around the one
@@ -177,3 +187,4 @@ class Board:
         self.game_over = False
         self.first_move = True
         self.opened_cells = 0
+        self.amount_of_flags = self.mine_count
