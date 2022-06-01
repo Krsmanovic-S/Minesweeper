@@ -164,3 +164,16 @@ class Test3(MineCount):
     @default('highlighted')
     def _default_highlighted(self):
         return TEST
+
+
+class Back(Button):
+    x = int(WIDTH // 2 - 175)
+    y = int(550)
+
+    @default('image')
+    def _default_image(self):
+        return BACK_BUTTON
+
+    @default('highlighted')
+    def _default_highlighted(self):
+        return HIGHLIGHTED_BACK_BUTTON

@@ -24,7 +24,7 @@ class Board:
     @staticmethod
     def _scale_images(cell_size: int):
         new_image_size = (cell_size, cell_size)
-        for i in range(13):
+        for i in range(len(DRAWING)):
             DRAWING[i] = pygame.transform.scale(DRAWING[i], new_image_size)
 
     @staticmethod
@@ -71,6 +71,11 @@ class Board:
             # Randomize only after the move has been made,
             # we don't want a mine on the first move.
             self._randomize_mines((x, y))
+
+            # If the user enabled question tiles, we randomly
+            # distribute them on the field.
+            if self.question_mark_tile:
+                self._randomize_question_mark()
 
             for i in range(x - 1, x + 2):
                 for j in range(y - 1, y + 2):
@@ -149,6 +154,20 @@ class Board:
             for j in range(0, self.grid_size - 1):
                 if self._field[i][j] != 9:
                     self._field[i][j] = self._count_mines(i, j)
+
+    def _randomize_question_mark(self):
+        amount_of_question_tiles = self.grid_size**2 // 10
+
+        for i in range(amount_of_question_tiles, 0, -1):
+            x = random.randint(0, self.grid_size - 1)
+            y = random.randint(0, self.grid_size - 1)
+
+            # Don't put the question mark over
+            # a mine or over an empty tile.
+            if self._field[x][y] != 9 and self._field[x][y] != 0:
+                self._field[x][y] = 13
+            else:
+                i += 1
 
     def _count_mines(self, x: int, y: int) -> int:
         mines_around = 0

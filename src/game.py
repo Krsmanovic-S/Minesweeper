@@ -1,7 +1,7 @@
 from board import Board
 from constants import *
 from button_traits import Play, Settings, Exit, MineCount, Grid, LinkedIn,\
-                          Git, QuestionTile, Test3, Smiley
+                          Git, QuestionTile, Test3, Smiley, Back
 from slider import Slider
 import webbrowser
 import time
@@ -24,6 +24,7 @@ class Game:
         self._mine_count = MineCount()
         self._question_tile = QuestionTile()
         self.test_3 = Test3()
+        self._back_button = Back()
 
         # Top-Bar Field GUI
         self.smiley = Smiley()
@@ -116,6 +117,8 @@ class Game:
                             # This variable is used to control which
                             # button appears for the question mark tile.
                             self.board.question_mark_tile = not self.board.question_mark_tile
+                        elif self._back_button.is_mouse_over(self.mouse_pos):
+                            self.main_menu()
 
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:
@@ -136,6 +139,7 @@ class Game:
             self._question_tile.draw_button(self.window, self.mouse_pos)
 
             self.test_3.draw_button(self.window, self.mouse_pos)
+            self._back_button.draw_button(self.window, self.mouse_pos)
 
             self._grid_size_slider.draw_slider(self.window)
             self._mine_count_slider.draw_slider(self.window)

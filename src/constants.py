@@ -37,6 +37,7 @@ FLAG = pygame.image.load('images/tiles/flag.png')
 MINE = pygame.image.load('images/tiles/mine.png')
 CLOSED = pygame.image.load('images/tiles/closed_tile.png')
 HIGHLIGHTED_CLOSED = pygame.image.load('images/tiles/highlighted_closed.png')
+QUESTION_MARK = pygame.image.load('images/tiles/question_mark.png')
 
 # BUTTONS
 PLAY_BUTTON = pygame.image.load('images/buttons/play_button.png')
@@ -47,6 +48,8 @@ GRID_SETTINGS_BUTTON = pygame.image.load('images/buttons/grid_settings.png')
 MINE_COUNT_BUTTON = pygame.image.load('images/buttons/mine_count_button.png')
 QUESTION_MARK_ENABLED = pygame.image.load('images/buttons/enabled_question_mark.png')
 QUESTION_MARK_DISABLED = pygame.image.load('images/buttons/disabled_question_mark.png')
+
+BACK_BUTTON = pygame.image.load('images/buttons/back_button.png')
 
 TEST = pygame.image.load('images/buttons/button_template.png')
 
@@ -64,13 +67,13 @@ HIGHLIGHTED_MINE_COUNT = pygame.image.load('images/buttons/highlighted/highlight
 HIGHLIGHTED_ENABLED_QUESTION = pygame.image.load('images/buttons/highlighted/highlighted_enabled_question.png')
 HIGHLIGHTED_DISABLED_QUESTION = pygame.image.load('images/buttons/highlighted/highlighted_disabled_question.png')
 
+HIGHLIGHTED_BACK_BUTTON = pygame.image.load('images/buttons/highlighted/highlighted_back_button.png')
+
 HIGHLIGHTED_SMILEY = pygame.image.load('images/buttons/highlighted/highlighted_smiley.png')
 HIGHLIGHTED_WON_SMILEY = pygame.image.load('images/buttons/highlighted/highlighted_won_smiley.png')
 HIGHLIGHTED_DEAD_SMILEY = pygame.image.load('images/buttons/highlighted/highlighted_dead_smiley.png')
 
 # CLOCK IMAGES
-CLOCK = pygame.image.load('images/number_template.png')
-
 CLOCK_0 = pygame.image.load('images/clock/clock_0.png')
 CLOCK_1 = pygame.image.load('images/clock/clock_1.png')
 CLOCK_2 = pygame.image.load('images/clock/clock_2.png')
@@ -110,5 +113,6 @@ DRAWING = {
     9: MINE,
     10: FLAG,
     11: CLOSED,
-    12: HIGHLIGHTED_CLOSED
+    12: HIGHLIGHTED_CLOSED,
+    13: QUESTION_MARK
 }
