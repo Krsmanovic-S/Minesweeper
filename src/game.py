@@ -43,6 +43,8 @@ class Game:
         self.mouse_pos = (0, 0)
         self.start_time = time.time()
         self.elapsed_time = 0
+        self.clicked = False
+        self.clicked_tile = (-1, -1)
 
     # Menu Functions
     def main_menu(self):
@@ -172,18 +174,25 @@ class Game:
                         if self.smiley.is_mouse_over(self.mouse_pos):
                             self.board.reset()
                     elif self.mouse_pos[1] > 100:
+                        self.clicked = True
                         if self.board.game_over:
                             self.board.reset()
-                        elif self.board.first_move:
+                elif event.button == 3 and self.mouse_pos[1] > 100:
+                    # Right mouse button places a flag.
+                    self.board.place_flag(self.mouse_pos)
+
+            elif event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    if self.clicked:
+                        if self.board.first_move:
                             # First move can never be a mine, so we handle
                             # that here, then move on normally.
                             self.board.play_first_move(self.mouse_pos)
                             self.board.first_move = False
                         else:
                             self.board.open_cell(self.mouse_pos)
-                elif event.button == 3 and self.mouse_pos[1] > 100:
-                    # Right mouse button places a flag.
-                    self.board.place_flag(self.mouse_pos)
+                        self.clicked = False
+
 
     def _update(self):
         self.mouse_pos = pygame.mouse.get_pos()
