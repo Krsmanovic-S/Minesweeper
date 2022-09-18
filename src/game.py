@@ -1,7 +1,7 @@
 from board import Board
 from constants import *
 from button_traits import Play, Settings, Exit, MineCount, Grid, LinkedIn,\
-                          Git, QuestionTile, Test3, Smiley, Back
+                          Git, QuestionTile, Timer, Smiley, Back
 from slider import Slider
 import webbrowser
 import time
@@ -23,7 +23,7 @@ class Game:
         self._grid_settings = Grid()
         self._mine_count = MineCount()
         self._question_tile = QuestionTile()
-        self.test_3 = Test3()
+        self._timer_button = Timer()
         self._back_button = Back()
 
         # Top-Bar Field GUI
@@ -35,12 +35,15 @@ class Game:
         self._linkedin_button = LinkedIn()
 
         # Values in the constructor are (in this order):
-        # position of the slider, maximum value, current filled up part.
+        # position of the slider (x, y), maximum value, current filled up part.
         self._grid_size_slider = Slider((50, 165), 40, 75)
         self._mine_count_slider = Slider((450, 165), 500, 50)
+        self._timer_slider = Slider((450, 415), 999, 0)
 
+        # Variables
         self.board = Board()
         self.mouse_pos = (0, 0)
+        self.timer_value = 0
         self.start_time = time.time()
         self.elapsed_time = 0
         self.clicked = False
@@ -98,12 +101,15 @@ class Game:
 
         pressed_grid_slider = False
         pressed_mine_slider = False
+        pressed_time_slider = False
 
         while True:
             self.mouse_pos = pygame.mouse.get_pos()
 
-            # Update the maximum number of mines according to the grid settings.
+            # Update the maximum number of mines according to the mine
+            # slider, as well as the timer value from its slider.
             self._mine_count_slider.upper_value = self._grid_size_slider.get_value()**2 - 1
+            self.timer_value = self._timer_slider.get_value()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -115,6 +121,9 @@ class Game:
                             pressed_grid_slider = True
                         elif self._mine_count.is_mouse_over(self.mouse_pos):
                             pressed_mine_slider = True
+                        elif self._timer_button.is_mouse_over(self.mouse_pos):
+                            pressed_time_slider = True
+
                         elif self._question_tile.is_mouse_over(self.mouse_pos):
                             # This variable is used to control which
                             # button appears for the question mark tile.
@@ -128,6 +137,7 @@ class Game:
                         # we stop pressing the left mouse button.
                         pressed_grid_slider = False
                         pressed_mine_slider = False
+                        pressed_time_slider = False
 
                 elif event.type == pygame.KEYDOWN:
                     # Transition back to main menu by pressing escape.
@@ -140,18 +150,21 @@ class Game:
             self._question_tile.update_question_tile(self.board.question_mark_tile)
             self._question_tile.draw_button(self.window, self.mouse_pos)
 
-            self.test_3.draw_button(self.window, self.mouse_pos)
+            self._timer_button.draw_button(self.window, self.mouse_pos)
             self._back_button.draw_button(self.window, self.mouse_pos)
 
             self._grid_size_slider.draw_slider(self.window)
             self._mine_count_slider.draw_slider(self.window)
+            self._timer_slider.draw_slider(self.window)
 
             # Keep track of when we press the mouse over the slider
             # and change its value if we are dragging the mouse.
             if pressed_grid_slider:
                 self._grid_size_slider.change_slider_value(self.mouse_pos)
-            if pressed_mine_slider:
+            elif pressed_mine_slider:
                 self._mine_count_slider.change_slider_value(self.mouse_pos)
+            elif pressed_time_slider:
+                self._timer_slider.change_slider_value(self.mouse_pos)
 
             pygame.display.update()
 
@@ -168,19 +181,21 @@ class Game:
                 # Resetting the board when pressing 'r'.
                 if event.key == pygame.K_r:
                     self.board.reset()
+                    self.start_time = time.time()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     if self.mouse_pos[1] < 100:
                         if self.smiley.is_mouse_over(self.mouse_pos):
                             self.board.reset()
+                            self.start_time = time.time()
                     elif self.mouse_pos[1] > 100:
                         self.clicked = True
                         if self.board.game_over:
                             self.board.reset()
+                            self.start_time = time.time()
                 elif event.button == 3 and self.mouse_pos[1] > 100:
                     # Right mouse button places a flag.
                     self.board.place_flag(self.mouse_pos)
-
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     if self.clicked:
@@ -193,41 +208,37 @@ class Game:
                             self.board.open_cell(self.mouse_pos)
                         self.clicked = False
 
-
     def _update(self):
         self.mouse_pos = pygame.mouse.get_pos()
 
-        # Time can never exceed 999 seconds since
-        # we only have three digits displaying it.
-        if self.elapsed_time <= 999:
+        if self.elapsed_time <= 999 and not self.board.game_over:
             self.elapsed_time = int(time.time() - self.start_time)
 
-        # Default smiley means game is still going.
+        # Here we want to get the game state which we use
+        # below to determine which smiley face gets drawn.
         if not self.board.game_over:
             self.game_state = 1
 
-        # Winning the game is the cool smiley.
         if self.board.opened_cells == self.board.grid_size ** 2:
             self.board.game_over = True
             self.game_state = 2
-        # Losing is the dead smiley.
         elif self.board.game_over:
             self.game_state = 0
 
-        # Update the smiley picture according to the game state.
         self.smiley.update_smiley_picture(self.game_state)
 
     def _render(self):
         self.board.draw_grid(self.window, self.mouse_pos)
         self.smiley.draw_button(self.window, self.mouse_pos)
 
-        current_flag_amount = self.board.amount_of_flags
         # Draw the clock and the amount of flags.
+        current_flag_amount = self.board.amount_of_flags
+        current_time = self.elapsed_time
         for i in range(3, 0, -1):
-            clock_digit = self.elapsed_time % 10
+            clock_digit = current_time % 10
             flag_digit = current_flag_amount % 10
 
-            self.elapsed_time = self.elapsed_time // 10
+            current_time = current_time // 10
             current_flag_amount = current_flag_amount // 10
 
             self.window.blit(CLOCK_DIGITS[flag_digit], (25 + 55 * (i - 1), 10))

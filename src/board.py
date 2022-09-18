@@ -32,7 +32,7 @@ class Board:
         window.fill(outline_color, rect)
         window.fill(fill_color, rect.inflate(-border * 2, -border * 2))
 
-    def draw_grid(self, window, mouse):
+    def draw_grid(self, window: pygame.display, mouse: tuple):
         mouse_x, mouse_y = (mouse[1] - 100) // self._cell_size, mouse[0] // self._cell_size
 
         top_label = pygame.Rect(0, 0, 800, 100)
@@ -152,7 +152,7 @@ class Board:
         # and put the matching number in that field position.
         for i in range(0, self.grid_size - 1):
             for j in range(0, self.grid_size - 1):
-                if self._field[i][j] != 9:
+                if self._field[i][j] != 9 and self._field[i][j] != 10:
                     self._field[i][j] = self._count_mines(i, j)
 
     def _randomize_question_mark(self):

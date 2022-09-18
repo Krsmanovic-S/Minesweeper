@@ -154,7 +154,7 @@ class MineCount(Button):
         return MINE_COUNT_BUTTON
 
 
-class Test3(MineCount):
+class Timer(MineCount):
     y = int(325)
 
     @default('image')
